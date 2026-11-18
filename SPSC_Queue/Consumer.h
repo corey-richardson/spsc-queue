@@ -7,7 +7,7 @@
 
 #include "Config.h"
 #include "ThreadedQueue.h"
-#include "Types.h"
+#include "Message.h"
 
 namespace consumer {
 void writerThread(const std::string& output_filename, ThreadedQueue& queue);

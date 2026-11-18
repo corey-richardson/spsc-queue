@@ -142,7 +142,7 @@
     <ClInclude Include="Consumer.h" />
     <ClInclude Include="Producer.h" />
     <ClInclude Include="ThreadedQueue.h" />
-    <ClInclude Include="Types.h" />
+    <ClInclude Include="Message.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.txt" />

@@ -10,7 +10,7 @@
 #include "Checksum.h"
 #include "Config.h"
 #include "ThreadedQueue.h"
-#include "Types.h"
+#include "Message.h"
 
 namespace producer {
 void readerThread(const std::string& comport,

@@ -3,7 +3,7 @@
 #include <mutex>
 #include <queue>
 
-#include "Types.h"
+#include "Message.h"
 
 class ThreadedQueue {
    private:
