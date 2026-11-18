@@ -33,9 +33,9 @@ flowchart TD
     Main -. Spawns / Joins .-> Writer
 
     Device["Hardware"] -->|Data Stream| Reader["Reader Thread"]
-    Reader -->|Parsed Packets| Queue["Thread-Safe Queue"]
-    Queue -->|Buffered Packets| Writer["Writer Thread"]
+    Reader -->|Pushes Parsed Packets| Queue["Thread-Safe Queue"]
+    Queue -->|Pops Packets| Writer["Writer Thread"]
 
-    Writer -->|Log| File["CSV File"]
-    Writer -->|Subsample| Console["Console Display"]
+    Writer -->|Logs to| File["CSV File"]
+    Writer -->|Subsamples to| Console["Console Display"]
 ```
