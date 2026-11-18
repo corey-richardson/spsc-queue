@@ -34,7 +34,7 @@ flowchart TD
 
     Device["Hardware"] -->|Data Stream| Reader["Reader Thread"]
     Reader -->|Pushes Parsed Packets| Queue["Thread-Safe Queue"]
-    Queue -->|Pops Packets| Writer["Writer Thread"]
+    Queue -->|Pops Buffered Packets| Writer["Writer Thread"]
 
     Writer -->|Logs to| File["CSV File"]
     Writer -->|Subsamples to| Console["Console Display"]
