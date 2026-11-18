@@ -32,9 +32,9 @@ int main(int argc, char* argv[]) {
     SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED);
 
     ThreadedQueue queue;
-    std::thread producer(producer::readerThread, comport, duration,
+    std::thread producer(producer::reader_thread, comport, duration,
                          std::ref(queue));
-    std::thread consumer(consumer::writerThread, output_filename,
+    std::thread consumer(consumer::writer_thread, output_filename,
                          std::ref(queue));
 
     producer.join();

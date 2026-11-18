@@ -1,6 +1,6 @@
 #include "Consumer.h"
 
-void consumer::writerThread(const std::string& output_filename,
+void consumer::writer_thread(const std::string& output_filename,
                             ThreadedQueue& queue) {
     std::ofstream file(output_filename, std::ios::out);
     if (!file) {

@@ -13,6 +13,6 @@
 #include "Message.h"
 
 namespace producer {
-void readerThread(const std::string& comport,
+void reader_thread(const std::string& comport,
                   const std::chrono::seconds duration, ThreadedQueue& queue);
 }

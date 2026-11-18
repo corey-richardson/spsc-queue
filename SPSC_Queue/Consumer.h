@@ -10,5 +10,5 @@
 #include "Message.h"
 
 namespace consumer {
-void writerThread(const std::string& output_filename, ThreadedQueue& queue);
+void writer_thread(const std::string& output_filename, ThreadedQueue& queue);
 }

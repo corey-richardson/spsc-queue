@@ -1,6 +1,6 @@
 #include "Producer.h"
 
-void producer::readerThread(const std::string& comport,
+void producer::reader_thread(const std::string& comport,
                             const std::chrono::seconds duration,
                             ThreadedQueue& queue) {
     auto start_time = std::chrono::steady_clock::now();
