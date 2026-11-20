@@ -7,7 +7,7 @@
 
 namespace config {
 // Serial Port Communication Settings
-inline constexpr uint32_t BAUD_RATE = 1036800;
+inline constexpr uint32_t BAUD_RATE = 115200;
 inline constexpr uint8_t BYTE_SIZE = 8;
 inline constexpr size_t SERIAL_BUFFER_SIZE = 128;
 
