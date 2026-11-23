@@ -7,7 +7,6 @@
 #include <stdexcept>
 #include <string>
 
-#include "Checksum.h"
 #include "Config.h"
 #include "ThreadedQueue.h"
 #include "Message.h"

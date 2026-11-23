@@ -14,6 +14,18 @@ struct Message {
     static int16_t combine_msb_lsb(uint8_t msb, uint8_t lsb) {
         return static_cast<int16_t>((msb << 8) | lsb);
     }
+
+    // Sum message.bytes
+    // Ones complement
+    bool verify() const {
+        uint8_t sum = 0;
+        for (uint8_t byte : bytes) {
+            sum += byte;
+        }
+        sum = ~sum;
+
+        return checksum == sum;
+    }
 };
 
 // Overloaded << operator, allowing control of the stream

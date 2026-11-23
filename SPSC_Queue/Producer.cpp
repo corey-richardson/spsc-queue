@@ -79,7 +79,7 @@ void producer::reader_thread(const std::string& comport,
                             received_message.bytes[4] = slider[4];  // Data 4
                             received_message.checksum = slider[5];  // Checksum
 
-                            if (checksum::verify(received_message)) {
+                            if (received_message.verify()) {
                                 queue.push(received_message);
                                 slider.clear();
                             }
