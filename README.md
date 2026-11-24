@@ -10,7 +10,7 @@ The `ThreadedQueue` class has three methods: `push`, `pop`, `set_is_finished`. T
 
 The `Consumer` thread pops messages from the `ThreadedQueue`, and writes the message data to a CSV file, as well as the `std::cout` stream 3 times a second.
 
-The MSB and LSB are combined by `Message::combineMsbLsb()` in `Message.h`.
+The MSB and LSB are combined by `Message::combine_msb_lsb()` in `Message.h`.
 
 > The README describes my use case values. See `Config.h` to configure your own values.
 
