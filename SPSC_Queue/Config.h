@@ -21,5 +21,5 @@ inline constexpr auto PRINT_SUBSAMPLE_RATE =
     std::chrono::milliseconds(1000 / 3);
 
 // Default configuration values
-inline const std::string DEFAULT_OUTPUT_FILENAME = "output.csv";
+inline const std::string FILENAME_PREFIX = "log";
 }

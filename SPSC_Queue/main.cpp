@@ -1,4 +1,5 @@
 #include <chrono>
+#include <format>
 #include <iostream>
 #include <thread>
 
@@ -7,7 +8,9 @@
 #include "Producer.h"
 #include "ThreadedQueue.h"
 
-// .\SPSC_Queue.exe COM4 120 ?test1
+std::string get_timestamped_filename();
+
+    // .\SPSC_Queue.exe COM4 120 ?test1
 int main(int argc, char* argv[]) {
     if (argc < 3) {
         std::cerr << "\nMissing required arguments!\n\n";
@@ -22,7 +25,7 @@ int main(int argc, char* argv[]) {
     std::string comport = "\\\\.\\" + std::string(argv[1]);
     std::chrono::seconds duration(atoi(argv[2]));
 
-    std::string output_filename = config::DEFAULT_OUTPUT_FILENAME;
+    std::string output_filename = get_timestamped_filename();
     if (argc > 3) {
         output_filename = std::string(argv[3]) + ".csv";
     }
@@ -44,4 +47,13 @@ int main(int argc, char* argv[]) {
     SetThreadExecutionState(ES_CONTINUOUS);
 
     return 0;
+}
+
+std::string get_timestamped_filename() {
+    auto now = std::chrono::floor<std::chrono::seconds>(
+        std::chrono::current_zone()->to_local(
+            std::chrono::system_clock::now()));
+
+    return std::format("{}_{:%Y-%m-%d_%H-%M-%S}.csv", config::FILENAME_PREFIX,
+                       now);
 }
