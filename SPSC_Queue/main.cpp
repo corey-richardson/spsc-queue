@@ -25,10 +25,9 @@ int main(int argc, char* argv[]) {
     std::string comport = "\\\\.\\" + std::string(argv[1]);
     std::chrono::seconds duration(atoi(argv[2]));
 
-    std::string output_filename = get_timestamped_filename();
-    if (argc > 3) {
-        output_filename = std::string(argv[3]) + ".csv";
-    }
+    std::string output_filename = (argc > 3) 
+        ? (std::string(argv[3]) + ".csv")
+        : get_timestamped_filename();
 
     std::cout << "Recording " << argv[1] << " to " << output_filename << " for "
               << argv[2] << " seconds.\n\n";
