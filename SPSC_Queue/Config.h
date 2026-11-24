@@ -19,7 +19,4 @@ inline constexpr size_t PACKET_SIZE =
 // Subsampling display rate (~3 Hz)
 inline constexpr auto PRINT_SUBSAMPLE_RATE =
     std::chrono::milliseconds(1000 / 3);
-
-// Default configuration values
-inline const std::string FILENAME_PREFIX = "log";
 }
