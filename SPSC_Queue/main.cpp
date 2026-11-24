@@ -10,7 +10,7 @@
 
 std::string get_timestamped_filename();
 
-    // .\SPSC_Queue.exe COM4 120 ?test1
+// .\SPSC_Queue.exe COM4 120 ?test1
 int main(int argc, char* argv[]) {
     if (argc < 3) {
         std::cerr << "\nMissing required arguments!\n\n";
@@ -22,10 +22,10 @@ int main(int argc, char* argv[]) {
         return -1;
     }
 
-    std::string comport = "\\\\.\\" + std::string(argv[1]);
-    std::chrono::seconds duration(atoi(argv[2]));
+    const std::string comport = "\\\\.\\" + std::string(argv[1]);
+    const std::chrono::seconds duration(atoi(argv[2]));
 
-    std::string output_filename = (argc > 3) 
+    const std::string output_filename = (argc > 3) 
         ? (std::string(argv[3]) + ".csv")
         : get_timestamped_filename();
 
