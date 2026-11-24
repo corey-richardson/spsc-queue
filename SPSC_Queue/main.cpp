@@ -8,7 +8,14 @@
 #include "Producer.h"
 #include "ThreadedQueue.h"
 
-std::string get_timestamped_filename();
+std::string get_timestamped_filename() {
+    auto now = std::chrono::floor<std::chrono::seconds>(
+        std::chrono::current_zone()->to_local(
+            std::chrono::system_clock::now()));
+
+    return std::format("{}_{:%Y-%m-%d_%H-%M-%S}.csv", config::FILENAME_PREFIX,
+                       now);
+}
 
 // .\SPSC_Queue.exe COM4 120 ?test1
 int main(int argc, char* argv[]) {
@@ -46,13 +53,4 @@ int main(int argc, char* argv[]) {
     SetThreadExecutionState(ES_CONTINUOUS);
 
     return 0;
-}
-
-std::string get_timestamped_filename() {
-    auto now = std::chrono::floor<std::chrono::seconds>(
-        std::chrono::current_zone()->to_local(
-            std::chrono::system_clock::now()));
-
-    return std::format("{}_{:%Y-%m-%d_%H-%M-%S}.csv", config::FILENAME_PREFIX,
-                       now);
 }
