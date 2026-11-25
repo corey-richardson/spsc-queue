@@ -68,21 +68,22 @@ void producer::reader_thread(const std::string& comport,
                             slider.pop_front();
                         }
 
-                        if (slider.size() == config::PACKET_SIZE &&
-                            slider.front() == config::SYNC_BYTE
-                        ) {
-                            Message received_message;
-                            received_message.bytes[0] = slider[0];  // config::SYNC_BYTE
-                            received_message.bytes[1] = slider[1];  // Data 1
-                            received_message.bytes[2] = slider[2];  // Data 2
-                            received_message.bytes[3] = slider[3];  // Data 3
-                            received_message.bytes[4] = slider[4];  // Data 4
-                            received_message.checksum = slider[5];  // Checksum
+                        if (slider.size() == config::PACKET_SIZE) {
+                            if (slider.front() == config::SYNC_BYTE) {
+                                Message received_message;
+                                received_message.bytes[0] = slider[0];  // config::SYNC_BYTE
+                                received_message.bytes[1] = slider[1];  // Data 1
+                                received_message.bytes[2] = slider[2];  // Data 2
+                                received_message.bytes[3] = slider[3];  // Data 3
+                                received_message.bytes[4] = slider[4];  // Data 4
+                                received_message.checksum = slider[5];  // Checksum
 
-                            if (received_message.verify()) {
-                                queue.push(received_message);
-                                slider.clear();
+                                if (received_message.verify()) {
+                                    queue.push(received_message);
+                                }
                             }
+                        
+                        slider.pop_front();
                         }
                     }
                 }
