@@ -1,5 +1,13 @@
 #include "Producer.h"
 
+#include <cstdint>
+#include <deque>
+#include <iostream>
+#include <stdexcept>
+
+#include "Config.h"
+#include "Message.h"
+
 void producer::reader_thread(const std::string& comport,
                             const std::chrono::seconds duration,
                             ThreadedQueue& queue) {

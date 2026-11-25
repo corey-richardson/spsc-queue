@@ -1,5 +1,13 @@
 #include "Consumer.h"
 
+#include <chrono>
+#include <fstream>
+#include <iostream>
+#include <stdexcept>
+
+#include "Config.h"
+#include "Message.h"
+
 void consumer::writer_thread(const std::string& output_filename,
                             ThreadedQueue& queue) {
     std::ofstream file(output_filename, std::ios::out);

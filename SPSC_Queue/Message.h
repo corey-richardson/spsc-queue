@@ -1,5 +1,6 @@
 #pragma once
 #include <array>
+#include <cstdint>
 #include <iostream>
 
 // Holds 1 sync byte, 4 data bytes, and checksum byte

@@ -1,5 +1,7 @@
 #include "ThreadedQueue.h"
 
+#include <utility>
+
 // Used by producer thread
 void ThreadedQueue::push(Message message) {
     // Uses scope-guarding to release the lock through RAII priciple
