@@ -4,7 +4,7 @@ void producer::reader_thread(const std::string& comport,
                             const std::chrono::seconds duration,
                             ThreadedQueue& queue) {
     auto start_time = std::chrono::steady_clock::now();
-    HANDLE h_comm;
+    HANDLE h_comm = INVALID_HANDLE_VALUE;
 
     try {
         h_comm = CreateFileA(comport.c_str(), GENERIC_READ, 0, NULL,
@@ -88,14 +88,14 @@ void producer::reader_thread(const std::string& comport,
                 }
             }
         }
-    } catch (const std::invalid_argument& e) {
-        std::cerr << e.what() << std::endl;
-    } catch (const std::runtime_error& e) {
+    } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
     } catch (...) {
         std::cerr << "Uncaught error!" << std::endl;
     }
 
+    if (h_comm != INVALID_HANDLE_VALUE) {
+        CloseHandle(h_comm);
+    }
     queue.set_is_finished();
-    CloseHandle(h_comm);
 }
