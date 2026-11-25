@@ -13,7 +13,7 @@ class ThreadedQueue {
     bool is_finished_ = false;
 
    public:
-    void push(Message message);
+    void push(const Message& message);
     bool pop(Message& message);
     void set_is_finished();
 };

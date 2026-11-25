@@ -1,9 +1,14 @@
 #include "Producer.h"
 
+#include <Windows.h>
+
+#include <array>
+#include <chrono>
 #include <cstdint>
 #include <deque>
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 #include "Config.h"
 #include "Message.h"
@@ -15,8 +20,15 @@ void producer::reader_thread(const std::string& comport,
     HANDLE h_comm = INVALID_HANDLE_VALUE;
 
     try {
-        h_comm = CreateFileA(comport.c_str(), GENERIC_READ, 0, NULL,
-                            OPEN_EXISTING, 0, NULL);
+        h_comm = CreateFileA(
+            comport.c_str(),
+            GENERIC_READ, 
+            0, 
+            nullptr,
+            OPEN_EXISTING, 
+            0,
+            nullptr
+        );
 
         if (h_comm == INVALID_HANDLE_VALUE) {
             throw std::invalid_argument(
@@ -54,8 +66,8 @@ void producer::reader_thread(const std::string& comport,
 
         PurgeComm(h_comm, PURGE_RXCLEAR | PURGE_TXCLEAR);
 
-        DWORD bytes_read;
-        uint8_t receive_data_buffer[config::SERIAL_BUFFER_SIZE] = { 0 };
+        DWORD bytes_read = 0;
+        std::array<uint8_t, config::SERIAL_BUFFER_SIZE> receive_data_buffer {};
 
         // Uses std::deque as std::queue doesn't have a ".clear()" method
         std::deque<uint8_t> slider;
@@ -67,18 +79,23 @@ void producer::reader_thread(const std::string& comport,
                 break;
             }
 
-            if (ReadFile(h_comm, receive_data_buffer,
-                         sizeof(receive_data_buffer), &bytes_read, NULL)) {
+            if (ReadFile(
+                h_comm, 
+                receive_data_buffer.data(),
+                static_cast<DWORD>(receive_data_buffer.size()),
+                &bytes_read,
+                nullptr
+            )) {
                 if (bytes_read > 0) {
                     for (DWORD i = 0; i < bytes_read; ++i) {
-                        slider.push_back(receive_data_buffer[i]);
+                        slider.push_back(receive_data_buffer.at(i));
                         if (slider.size() > config::PACKET_SIZE) {
                             slider.pop_front();
                         }
 
                         if (slider.size() == config::PACKET_SIZE) {
                             if (slider.front() == config::SYNC_BYTE) {
-                                Message received_message;
+                                Message received_message {};
                                 received_message.bytes[0] = slider[0];  // config::SYNC_BYTE
                                 received_message.bytes[1] = slider[1];  // Data 1
                                 received_message.bytes[2] = slider[2];  // Data 2
@@ -88,6 +105,8 @@ void producer::reader_thread(const std::string& comport,
 
                                 if (received_message.verify()) {
                                     queue.push(received_message);
+                                    slider.clear();
+                                    continue;
                                 }
                             }
                         

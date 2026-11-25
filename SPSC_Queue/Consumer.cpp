@@ -17,7 +17,7 @@ void consumer::writer_thread(const std::string& output_filename,
 
     file << "SyncByte,Byte1,Byte2,SensorValue1,Byte3,Byte4,SensorValue2,CS\n";
 
-    Message message;
+    Message message {};
 
     auto last_display_time = std::chrono::steady_clock::now();
 

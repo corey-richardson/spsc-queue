@@ -3,11 +3,11 @@
 #include <utility>
 
 // Used by producer thread
-void ThreadedQueue::push(Message message) {
+void ThreadedQueue::push(const Message& message) {
     // Uses scope-guarding to release the lock through RAII priciple
     {
         std::lock_guard<std::mutex> lock(mutex_);
-        queue_.push(std::move(message));
+        queue_.push(message);
     }
     // ^ Lock is released here, before condition variable notifies
     // the consumer thread that the resource is free, minimising lock time.
@@ -28,9 +28,7 @@ bool ThreadedQueue::pop(Message& message) {
         // Lock goes out of scope, RAII
     }
 
-    // std::move avoids a copy operation by transferring ownership from
-    // queue->message
-    message = std::move(queue_.front());
+    message = queue_.front();
     queue_.pop();
 
     return true;
