@@ -101,7 +101,6 @@
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="test.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -109,13 +108,14 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="message.test.cpp" />
+    <ClCompile Include="threaded_queue.test.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SPSC_Queue\SPSC_Queue.vcxproj">
-      <Project>{8dba0d53-356f-4453-8748-48325b712103}</Project>
+    <ProjectReference Include="..\SPSC_Queue_Lib\SPSC_Queue_Lib.vcxproj">
+      <Project>{4ade8cbf-9b43-4a97-a511-d54c2cb72c79}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
