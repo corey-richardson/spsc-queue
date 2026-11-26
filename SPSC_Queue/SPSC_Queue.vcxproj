@@ -108,6 +108,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>$(SolutionDir)SPSC_Queue_Lib</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -130,17 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Consumer.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Producer.cpp" />
-    <ClCompile Include="ThreadedQueue.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Config.h" />
-    <ClInclude Include="Consumer.h" />
-    <ClInclude Include="Producer.h" />
-    <ClInclude Include="ThreadedQueue.h" />
-    <ClInclude Include="Message.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="README.txt" />
@@ -148,6 +139,11 @@
   <ItemGroup>
     <None Include=".clang-format" />
     <None Include=".clang-tidy" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SPSC_Queue_Lib\SPSC_Queue_Lib.vcxproj">
+      <Project>{4ade8cbf-9b43-4a97-a511-d54c2cb72c79}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
