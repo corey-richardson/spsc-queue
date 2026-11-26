@@ -1,6 +1,7 @@
 #include <windows.h>
 
 #include <chrono>
+#include <filesystem>
 #include <format>
 #include <iostream>
 #include <string>
@@ -34,9 +35,10 @@ int main(int argc, char* argv[]) {
         const std::string comport = "\\\\.\\" + std::string(argv[1]);
         const std::chrono::seconds duration(std::stoi(argv[2]));
 
+        std::filesystem::create_directories("Output");
         const std::string output_filename =
-            (argc > 3) ? (std::string(argv[3]) + ".csv")
-                       : get_timestamped_filename();
+            "Output/" + ((argc > 3) ? (std::string(argv[3]) + ".csv")
+                                    : get_timestamped_filename());
 
         std::cout << "Recording " << argv[1] << " to " << output_filename
                   << " for " << argv[2] << " seconds.\n\n";
