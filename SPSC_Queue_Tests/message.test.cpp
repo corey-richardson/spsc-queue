@@ -44,7 +44,7 @@ TEST_F(MessageTests, CombineMsbLsbHandlesExtremes) {
     EXPECT_EQ(Message::combine_msb_lsb(0x7FU, 0xFFU), std::numeric_limits<int16_t>::max());
 }
 
-TEST_F(MessageTests, VerifiedValidChecksum) { 
+TEST_F(MessageTests, VerifiesValidChecksum) { 
     EXPECT_TRUE(valid_message_.verify());
 }
 
