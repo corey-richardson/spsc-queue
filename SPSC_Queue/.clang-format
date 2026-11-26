@@ -5,3 +5,11 @@ TabWidth: 4
 
 Cpp11BracedListStyle: false
 SpaceBeforeCpp11BracedList: true
+
+SortIncludes: CaseSensitive
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: "^<.*>"
+    Priority: 1
+  - Regex: '^".*"'
+    Priority: 2
