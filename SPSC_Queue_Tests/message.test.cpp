@@ -34,7 +34,7 @@ class MessageTests : public::testing::Test {
     };
 };
 
-TEST_F(MessageTests, CombineMsbLsbHandlesPositiveNegativeAndExtremes) {
+TEST_F(MessageTests, CombineMsbLsbHandlesPositiveNegative) {
     EXPECT_EQ(Message::combine_msb_lsb(0x01U, 0x00U), 256);
     EXPECT_EQ(Message::combine_msb_lsb(0xFFU, 0xFFU), -1);
 }
@@ -65,6 +65,8 @@ TEST_F(MessageTests, RejectsCorruptedPayload) {
 }
 
 TEST_F(MessageTests, VerifiesChecksumWhenByteSumExceeds255) {
+    // Sum of bytes is 0x0451 (1105 > 255).
+    // Wrapped to u8 -> 0x51 (81); bitwise NOT !0x51 = 0xAE (174).
     EXPECT_EQ(valid_wrapped_.bytes[0], 0x55);
     EXPECT_EQ(valid_wrapped_.bytes[1], 0xFF);
     EXPECT_EQ(valid_wrapped_.bytes[2], 0xFF);
