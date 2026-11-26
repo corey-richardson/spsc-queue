@@ -14,6 +14,32 @@ The MSB and LSB are combined by `Message::combine_msb_lsb()` in `Message.h`.
 
 > The README describes my use case values. See `Config.h` to configure your own values.
 
+## Project Structure
+
+Built with C++20 in Visual Studio 2022:
+
+- **`SPSC_Queue` (Executable):** Main application entry point (`main.cpp`) and serial/producer orchestration linking against `SPSC_Queue_Lib`.
+- **`SPSC_Queue_Lib` (Static Library):** Core reusable components (`Message`, `ThreadedQueue`, and `Consumer` / `Producer` logic) compiled into a static library so both the application and test suite link against the same implementation.
+- **`SPSC_Queue_Tests` (GoogleTest Suite):** Unit test suite linking against `SPSC_Queue_Lib` to verify program behaviour.
+
+```
+SPSC_Queue/                # Visual Studio Solution
+├── SPSC_Queue/            # Main executable project
+│   └── main.cpp
+├── SPSC_Queue_Lib/        # Static library project
+│   ├── Config.h
+│   ├── Consumer.cpp
+│   ├── Consumer.h
+│   ├── Message.h
+│   ├── Producer.cpp
+│   ├── Producer.h
+│   ├── ThreadedQueue.cpp
+│   └── ThreadedQueue.h
+└── SPSC_Queue_Tests/      # GoogleTest project
+    ├── message.test.cpp
+    └── threaded_queue.test.cpp
+```
+
 ## Usage
 
 ```sh
