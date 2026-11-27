@@ -23,6 +23,12 @@ struct KeepAwake {
     KeepAwake(const KeepAwake&) = delete;
     KeepAwake& operator=(const KeepAwake&) = delete;
 };
+
+void print_usage() {
+    std::cout << "Usage:   .\\SPSC_Queue.exe <COMPORT> <DURATION (s)> <OUTPUT_FILENAME?>\n";
+    std::cout << "Example: .\\SPSC_Queue.exe COM4 120\n";
+    std::cout << "Example: .\\SPSC_Queue.exe COM4 120 test_run\n\n";
+}
 }
 
 // .\SPSC_Queue.exe COM4 120 ?test1
@@ -49,9 +55,7 @@ int main(int argc, char* argv[]) {
         std::cout << "Recording complete!" << std::endl;
     } catch (const std::invalid_argument& e) {
         std::cerr << "\n" << e.what() << "\n\n";
-        std::cout << "Usage:   .\\SPSC_Queue.exe <COMPORT> <DURATION (s)> <OUTPUT_FILENAME?>\n";
-        std::cout << "Example: .\\SPSC_Queue.exe COM4 120\n";
-        std::cout << "Example: .\\SPSC_Queue.exe COM4 120 test_run\n\n";
+        print_usage();
         return 1;
     } catch (const std::exception& e) {
         std::cerr << "Fatal error: " << e.what() << '\n';
