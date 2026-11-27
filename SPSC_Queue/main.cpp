@@ -2,6 +2,7 @@
 
 #include <filesystem>
 #include <iostream>
+#include <stdexcept>
 #include <thread>
 #include <utility>
 
@@ -25,9 +26,9 @@ struct KeepAwake {
 };
 
 void print_usage() {
-    std::cout << "Usage:   .\\SPSC_Queue.exe <COMPORT> <DURATION (s)> <OUTPUT_FILENAME?>\n";
-    std::cout << "Example: .\\SPSC_Queue.exe COM4 120\n";
-    std::cout << "Example: .\\SPSC_Queue.exe COM4 120 test_run\n\n";
+    std::cerr << "Usage:   .\\SPSC_Queue.exe <COMPORT> <DURATION (s)> <OUTPUT_FILENAME?>\n";
+    std::cerr << "Example: .\\SPSC_Queue.exe COM4 120\n";
+    std::cerr << "Example: .\\SPSC_Queue.exe COM4 120 test_run\n\n";
 }
 }
 
@@ -38,8 +39,9 @@ int main(int argc, char* argv[]) {
 
         std::filesystem::create_directories("Output");
 
-        std::cout << "Recording " << args.raw_comport << " to " << args.output_filename
-                  << " for " << argv[2] << " seconds.\n\n";
+        std::cout << "Recording " << args.raw_comport << " to " 
+                  << args.output_filename << " for " 
+                  << args.duration.count() << " seconds.\n\n";
         
         KeepAwake display_guard; // RAII destructor guard
 
@@ -56,6 +58,9 @@ int main(int argc, char* argv[]) {
     } catch (const std::invalid_argument& e) {
         std::cerr << "\n" << e.what() << "\n\n";
         print_usage();
+        return 1;
+    } catch (const std::filesystem::filesystem_error& e) {
+        std::cerr << "Failed to create 'Output' directory: " << e.what() << '\n';
         return 1;
     } catch (const std::exception& e) {
         std::cerr << "Fatal error: " << e.what() << '\n';
