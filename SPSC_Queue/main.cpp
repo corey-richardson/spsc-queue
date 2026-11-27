@@ -1,5 +1,3 @@
-#include <windows.h>
-
 #include <filesystem>
 #include <functional>
 #include <iostream>
@@ -8,45 +6,11 @@
 
 #include "CliArgs.h"
 #include "Consumer.h"
+#include "Guards.h"
 #include "Producer.h"
 #include "ThreadedQueue.h"
 
 namespace {
-struct KeepAwake {
-    KeepAwake() {
-        SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED);
-    }
-
-    ~KeepAwake() { 
-        SetThreadExecutionState(ES_CONTINUOUS);
-    }
-
-    KeepAwake(const KeepAwake&) = delete;
-    KeepAwake& operator=(const KeepAwake&) = delete;
-};
-
-// Prevents std::terminate on exceptions
-// JoinThreads joins joinable threads during stack unwinding
-// Declare ThreadedQueue queue; before JoinThreads!
-struct JoinThreads {
-    std::thread& producer;
-    std::thread& consumer;
-
-    JoinThreads(std::thread& p, std::thread& c) : producer(p), consumer(c) {}
-
-    ~JoinThreads() {
-        if (producer.joinable()) {
-            producer.join();
-        }
-        if (consumer.joinable()) {
-            consumer.join();
-        }
-    }
-
-    JoinThreads(const JoinThreads&) = delete;
-    JoinThreads& operator=(const JoinThreads&) = delete;
-};
-
 void print_usage() {
     std::cerr << "Usage:   .\\SPSC_Queue.exe <COMPORT> <DURATION (s)> <OUTPUT_FILENAME?>\n";
     std::cerr << "Example: .\\SPSC_Queue.exe COM4 120\n";
@@ -65,7 +29,7 @@ int main(int argc, char* argv[]) {
                   << args.output_filename << " for " 
                   << args.duration.count() << " seconds.\n\n";
         
-        KeepAwake display_guard; // RAII destructor guard
+        guards::KeepAwake display_guard; // RAII destructor guard
 
         ThreadedQueue queue;
         std::thread producer(producer::reader_thread, args.comport,
@@ -73,7 +37,7 @@ int main(int argc, char* argv[]) {
         std::thread consumer(consumer::writer_thread, args.output_filename,
                              std::ref(queue));
 
-        JoinThreads join_guard { producer, consumer };
+        guards::JoinThreads join_guard { producer, consumer };
 
         producer.join();
         consumer.join();

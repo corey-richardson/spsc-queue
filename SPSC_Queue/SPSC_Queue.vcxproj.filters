@@ -26,4 +26,9 @@
     <None Include=".clang-format" />
     <None Include=".clang-tidy" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Guards.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
 </Project>
