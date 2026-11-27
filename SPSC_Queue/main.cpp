@@ -10,6 +10,21 @@
 #include "Producer.h"
 #include "ThreadedQueue.h"
 
+namespace {
+struct KeepAwake {
+    KeepAwake() {
+        SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED);
+    }
+
+    ~KeepAwake() { 
+        SetThreadExecutionState(ES_CONTINUOUS);
+    }
+
+    KeepAwake(const KeepAwake&) = delete;
+    KeepAwake& operator=(const KeepAwake&) = delete;
+};
+}
+
 // .\SPSC_Queue.exe COM4 120 ?test1
 int main(int argc, char* argv[]) {
     try {
@@ -19,7 +34,8 @@ int main(int argc, char* argv[]) {
 
         std::cout << "Recording " << args.raw_comport << " to " << args.output_filename
                   << " for " << argv[2] << " seconds.\n\n";
-        SetThreadExecutionState(ES_CONTINUOUS | ES_DISPLAY_REQUIRED);
+        
+        KeepAwake display_guard; // RAII destructor guard
 
         ThreadedQueue queue;
         std::thread producer(producer::reader_thread, args.comport,
@@ -31,7 +47,6 @@ int main(int argc, char* argv[]) {
         consumer.join();
 
         std::cout << "Recording complete!" << std::endl;
-        SetThreadExecutionState(ES_CONTINUOUS);
     } catch (const std::invalid_argument& e) {
         std::cerr << "\n" << e.what() << "\n\n";
         std::cout << "Usage:   .\\SPSC_Queue.exe <COMPORT> <DURATION (s)> <OUTPUT_FILENAME?>\n";
@@ -40,11 +55,9 @@ int main(int argc, char* argv[]) {
         return 1;
     } catch (const std::exception& e) {
         std::cerr << "Fatal error: " << e.what() << '\n';
-        SetThreadExecutionState(ES_CONTINUOUS);
         return 1;
     } catch (...) {
         std::cerr << "Unknown fatal error occurred.\n";
-        SetThreadExecutionState(ES_CONTINUOUS);
         return 1;
     }
 
