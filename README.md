@@ -27,6 +27,8 @@ SPSC_Queue/                # Visual Studio Solution
 ├── SPSC_Queue/            # Main executable project
 │   └── main.cpp
 ├── SPSC_Queue_Lib/        # Static library project
+│   ├── CliArgs.cpp
+│   ├── CliArgs.h
 │   ├── Config.h
 │   ├── Consumer.cpp
 │   ├── Consumer.h
@@ -36,6 +38,7 @@ SPSC_Queue/                # Visual Studio Solution
 │   ├── ThreadedQueue.cpp
 │   └── ThreadedQueue.h
 └── SPSC_Queue_Tests/      # GoogleTest project
+    ├── cli_args.test.cpp
     ├── message.test.cpp
     └── threaded_queue.test.cpp
 ```
